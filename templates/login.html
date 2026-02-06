@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Sales Analytics Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --success: #10b981;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .login-container {
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .login-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 25px 75px rgba(0,0,0,0.3);
+            padding: 40px;
+            width: 100%;
+            max-width: 420px;
+            border: none;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+        
+        .login-header .logo {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .login-header h2 {
+            color: #333;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .login-header p {
+            color: #666;
+            font-size: 0.95rem;
+            opacity: 0.8;
+        }
+        
+        .form-control {
+            padding: 14px 16px;
+            border-radius: 10px;
+            border: 2px solid #e8e8e8;
+            transition: all 0.3s;
+            font-size: 15px;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.15);
+        }
+        
+        .input-group-text {
+            background-color: #f8f9fa;
+            border: 2px solid #e8e8e8;
+            border-right: none;
+        }
+        
+        .form-control:focus + .input-group-text {
+            border-color: var(--primary);
+        }
+        
+        .btn-login {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border: none;
+            color: white;
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn-login:hover {
+            transform: translateY(-2px);
+            color: white;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-login:active {
+            transform: translateY(0);
+        }
+        
+        .btn-register {
+            background: white;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s;
+        }
+        
+        .btn-register:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+        
+        .alert {
+            border-radius: 10px;
+            border: none;
+            padding: 15px;
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            font-size: 0.9rem;
+        }
+        
+        .form-check-input:checked {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .forgot-password {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .forgot-password:hover {
+            color: var(--secondary);
+            text-decoration: underline;
+        }
+        
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 25px 0;
+            color: #999;
+            font-size: 0.9rem;
+        }
+        
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #eee;
+        }
+        
+        .divider span {
+            padding: 0 15px;
+        }
+        
+        .demo-credentials {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 25px;
+            border-left: 4px solid var(--success);
+        }
+        
+        .demo-credentials h6 {
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .demo-credentials ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 0.85rem;
+        }
+        
+        .demo-credentials li {
+            padding: 5px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .demo-credentials .badge {
+            font-size: 0.7rem;
+            padding: 3px 8px;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+        
+        .password-toggle {
+            cursor: pointer;
+            color: #666;
+            transition: color 0.3s;
+        }
+        
+        .password-toggle:hover {
+            color: var(--primary);
+        }
+        
+        .footer-text {
+            text-align: center;
+            margin-top: 25px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .footer-text a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        
+        .footer-text a:hover {
+            color: var(--secondary);
+            text-decoration: underline;
+        }
+        
+        .login-footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #888;
+            font-size: 0.85rem;
+        }
+        
+        @media (max-width: 576px) {
+            .login-card {
+                padding: 30px 20px;
+                margin: 15px;
+            }
+            
+            .login-header .logo {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container login-container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-5">
+                <div class="login-card mx-auto">
+                    <div class="login-header">
+                        <i class="bi bi-graph-up-arrow logo"></i>
+                        <h2>Sales Analytics Dashboard</h2>
+                        <p>Enter your credentials to access analytics</p>
+                    </div>
+                    
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category if category != 'danger' else 'danger' }} alert-dismissible fade show" role="alert">
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi {% if category == 'success' %}bi-check-circle-fill{% else %}bi-exclamation-triangle-fill{% endif %} me-2"></i>
+                                        <div>{{ message }}</div>
+                                    </div>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    
+                    <form method="POST" action="{{ url_for('login') }}" id="loginForm">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">
+                                <i class="bi bi-envelope me-1"></i> Email Address
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-person"></i>
+                                </span>
+                                <input type="email" class="form-control" id="email" name="email" 
+                                       placeholder="admin@example.com" required autofocus>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="password" class="form-label">
+                                <i class="bi bi-key me-1"></i> Password
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-lock"></i>
+                                </span>
+                                <input type="password" class="form-control" id="password" name="password" 
+                                       placeholder="Enter your password" required>
+                                <span class="input-group-text password-toggle" id="togglePassword">
+                                    <i class="bi bi-eye"></i>
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="remember-forgot">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="remember" name="remember">
+                                <label class="form-check-label" for="remember">
+                                    Remember me
+                                </label>
+                            </div>
+                            <a href="#" class="forgot-password">
+                                Forgot password?
+                            </a>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-login mb-3" id="loginBtn">
+                            <i class="bi bi-box-arrow-in-right me-2"></i> Login to Dashboard
+                        </button>
+                        
+                        <div class="divider">
+                            <span>or</span>
+                        </div>
+                        
+                        <a href="{{ url_for('register') }}" class="btn btn-register mb-4">
+                            <i class="bi bi-person-plus me-2"></i> Create New Account
+                        </a>
+                        
+                        <div class="demo-credentials">
+                            <h6>
+                                <i class="bi bi-info-circle"></i> Demo Credentials
+                            </h6>
+                            <ul>
+                                <li>
+                                    <span class="badge bg-primary">Admin</span>
+                                    <span>admin@example.com / 1234</span>
+                                </li>
+                                <li>
+                                    <span class="badge bg-success">User</span>
+                                    <span>user@example.com / test123</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </form>
+                    
+                    <div class="footer-text">
+                        <p class="mb-0">
+                            By logging in, you agree to our 
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Terms of Service</a> 
+                            and 
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal">Privacy Policy</a>
+                        </p>
+                    </div>
+                    
+                    <div class="login-footer">
+                        <p class="mb-0">© 2024 Sales Analytics Dashboard v1.0</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Terms Modal -->
+    <div class="modal fade" id="termsModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Terms of Service</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>This is a demo application for educational purposes. By using this dashboard, you agree that:</p>
+                    <ul>
+                        <li>This is not a production system</li>
+                        <li>Data may be reset periodically</li>
+                        <li>Use at your own risk</li>
+                        <li>No sensitive data should be uploaded</li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Privacy Modal -->
+    <div class="modal fade" id="privacyModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Privacy Policy</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>This application stores:</p>
+                    <ul>
+                        <li>User credentials (encrypted)</li>
+                        <li>Uploaded sales data</li>
+                        <li>Session information</li>
+                    </ul>
+                    <p>All data is stored locally in SQLite database and is not shared with third parties.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Toggle password visibility
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
+        const passwordIcon = togglePassword.querySelector('i');
+        
+        togglePassword.addEventListener('click', function() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            
+            // Toggle icon
+            passwordIcon.classList.toggle('bi-eye');
+            passwordIcon.classList.toggle('bi-eye-slash');
+        });
+        
+        // Form submission animation
+        const loginForm = document.getElementById('loginForm');
+        const loginBtn = document.getElementById('loginBtn');
+        
+        loginForm.addEventListener('submit', function(e) {
+            // Basic validation
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            if (!email || !password) {
+                e.preventDefault();
+                alert('Please fill in both email and password');
+                return;
+            }
+            
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                e.preventDefault();
+                alert('Please enter a valid email address');
+                return;
+            }
+            
+            // Show loading state
+            loginBtn.innerHTML = '<i class="bi bi-hourglass-split me-2"></i> Logging in...';
+            loginBtn.disabled = true;
+            loginBtn.classList.add('disabled');
+        });
+        
+        // Auto-fill demo credentials
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if there's an error message
+            const alerts = document.querySelectorAll('.alert');
+            if (alerts.length === 0) {
+                // No errors, check URL for demo parameter
+                const urlParams = new URLSearchParams(window.location.search);
+                const demo = urlParams.get('demo');
+                
+                if (demo === 'admin') {
+                    document.getElementById('email').value = 'admin@example.com';
+                    document.getElementById('password').value = '1234';
+                } else if (demo === 'user') {
+                    document.getElementById('email').value = 'user@example.com';
+                    document.getElementById('password').value = 'test123';
+                }
+            }
+        });
+        
+        // Add enter key submission
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && document.activeElement.tagName !== 'TEXTAREA') {
+                const submitBtn = loginForm.querySelector('button[type="submit"]');
+                if (submitBtn && !submitBtn.disabled) {
+                    submitBtn.click();
+                }
+            }
+        });
+        
+        // Focus management
+        document.getElementById('email').addEventListener('blur', function() {
+            if (this.value && !this.value.includes('@')) {
+                this.classList.add('is-invalid');
+            } else {
+                this.classList.remove('is-invalid');
+            }
+        });
+    </script>
+</body>
+</html>
