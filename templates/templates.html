@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sales Analytics Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body{font-family:Arial;padding:20px}
+        canvas{margin:30px 0}
+    </style>
+</head>
+<body>
+
+<h1>📊 Sales Analytics Dashboard</h1>
+
+<h3>Total Revenue: ₹<span id="rev"></span></h3>
+<h3>Total Customers: <span id="cust"></span></h3>
+
+<canvas id="dailyChart"></canvas>
+<canvas id="monthlyChart"></canvas>
+<canvas id="categoryChart"></canvas>
+<canvas id="countryChart"></canvas>
+
+<script>
+async function loadData(){
+    const res = await fetch('/api/advanced-chart-data');
+    const data = await res.json();
+
+    document.getElementById('rev').innerText = data.revenue_metrics.total_revenue;
+    document.getElementById('cust').innerText = data.revenue_metrics.total_customers;
+
+    new Chart(document.getElementById('dailyChart'), {
+        type:'line',
+        data:{
+            labels:data.trends.daily.map(d=>d.date),
+            datasets:[{label:'Daily Revenue',data:data.trends.daily.map(d=>d.revenue)}]
+        }
+    });
+
+    new Chart(document.getElementById('monthlyChart'), {
+        type:'bar',
+        data:{
+            labels:data.trends.monthly.map(d=>d.month),
+            datasets:[{label:'Monthly Revenue',data:data.trends.monthly.map(d=>d.revenue)}]
+        }
+    });
+
+    new Chart(document.getElementById('categoryChart'), {
+        type:'pie',
+        data:{
+            labels:data.category_analysis.map(c=>c.name),
+            datasets:[{data:data.category_analysis.map(c=>c.revenue)}]
+        }
+    });
+
+    new Chart(document.getElementById('countryChart'), {
+        type:'bar',
+        data:{
+            labels:data.geography_analysis.map(c=>c.country),
+            datasets:[{label:'Revenue by Country',data:data.geography_analysis.map(c=>c.revenue)}]
+        }
+    });
+}
+
+loadData();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,68 @@
+__name__ == '__main__'
+app.logger.hasHandlers()
+not app.debug or is_worker_process
+isinstance(obj, (np.integer, np.int32, np.int64))
+'.' not in file.filename
+ext not in ALLOWED_EXTENSIONS
+size > 10 * 1024 * 1024
+request.method == 'POST'
+request.method == 'POST'
+request.method == 'POST'
+request.method == 'POST'
+not app.debug
+isinstance(obj, (np.floating, np.float32, np.float64))
+'user' not in session
+date_range not in valid_ranges
+count == 0
+not name or not email or (not password)
+not email or not password
+df.empty
+category != 'all'
+country != 'all'
+brand != 'all'
+len(monthly_sorted) >= 2
+len(monthly_sorted) < 2
+not search_term
+df.empty
+df.empty
+df.empty
+df.empty
+df.empty
+df.empty
+len(monthly_rev) >= 2
+file.filename == ''
+app.debug
+app.debug
+isinstance(obj, np.ndarray)
+not df.empty
+not df.empty
+not df.empty
+c.fetchone()
+user and check_password_hash(user['password_hash'], password)
+prev_month_rev > 0
+len(monthly_sorted) == 1
+total_customers > 0
+len(monthly_rev) > 0
+prev_month > 0
+len(monthly_rev) == 1
+not is_valid
+file.filename.endswith(('.xlsx', '.xls'))
+missing_columns
+'category' not in df.columns
+'country' not in df.columns
+'payment_mode' not in df.columns
+'total_price' not in df.columns and 'quantity' in df.columns and ('unit_price' in df.columns)
+isinstance(obj, (pd.Timestamp, datetime))
+total_orders
+file.filename.endswith('.csv')
+col in df.columns
+isinstance(obj, pd.Period)
+db_ok
+growth_rate >= 0
+not df.empty
+isinstance(obj, (pd.Timedelta, timedelta))
+isinstance(obj, pd.Series)
+isinstance(obj, pd.DataFrame)
+df['order_id'].nunique() > 0
+isinstance(obj, dict)
+isinstance(obj, list)

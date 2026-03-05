@@ -1,453 +1,261 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload Data | Sales Analytics</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Upload Sales Data - Dhruva Analytics</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <style>
+        :root {
+            --primary: #6366f1;
+            --primary-glow: rgba(99, 102, 241, 0.4);
+            --dark-bg: #0f172a;
+            --card-bg: #1e293b;
+            --hover-bg: #334155;
+            --border-color: rgba(255, 255, 255, 0.05);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
         body {
-            background-color: #f8f9fa;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-main);
+            margin: 0;
+            min-height: 100vh;
         }
-        .upload-card {
-            max-width: 800px;
-            margin: 2rem auto;
-            background: white;
-            border-radius: 15px;
-            padding: 2rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            border: 1px solid #e9ecef;
+
+        .navbar-analytics {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.75rem 2rem;
         }
-        .upload-area {
-            border: 3px dashed #dee2e6;
-            border-radius: 15px;
-            padding: 3rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            background-color: #fdfdfd;
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
-        .upload-area:hover {
-            border-color: #667eea;
-            background-color: #f8f9ff;
-            transform: translateY(-2px);
-        }
-        .upload-area.dragover {
-            border-color: #10b981;
-            background-color: #f0fff4;
-        }
-        .template-card {
-            border: none;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            transition: all 0.3s;
-            height: 100%;
-            border: 1px solid #e9ecef;
-        }
-        .template-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-        .template-icon {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-        }
-        .btn-download {
-            padding: 8px 20px;
-            border-radius: 8px;
-            font-weight: 500;
-            transition: all 0.3s;
-        }
-        .file-info {
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 12px 15px;
-            margin-top: 15px;
-            border-left: 4px solid #667eea;
-        }
-        .requirements-box {
-            background: #e7f5ff;
-            border-radius: 10px;
-            padding: 20px;
-            border-left: 4px solid #228be6;
-        }
-        .template-preview {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            border-radius: 8px;
-            padding: 15px;
-            margin: 15px 0;
-            text-align: center;
-            height: 120px;
+
+        .upload-icon-container {
+            width: 80px;
+            height: 80px;
+            background: var(--primary-glow);
+            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
+            margin-bottom: 1.5rem;
         }
-        .badge-template {
-            font-size: 0.7rem;
-            padding: 4px 10px;
-            margin: 2px;
+
+        .upload-icon-container i {
+            font-size: 2.5rem;
+            color: var(--primary);
+        }
+
+        .form-control {
+            background-color: var(--dark-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            border-radius: 12px;
+            padding: 0.75rem 1rem;
+        }
+
+        .form-control:focus {
+            background-color: var(--dark-bg);
+            border-color: var(--primary);
+            color: var(--text-main);
+            box-shadow: 0 0 0 4px var(--primary-glow);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            border: none;
+            border-radius: 12px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--primary-glow);
+        }
+
+        .requirement-step {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .step-num {
+            width: 32px;
+            height: 32px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.875rem;
+        }
+
+        .table-dark-custom {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .table {
+            color: var(--text-main);
+            margin-bottom: 0;
+            font-size: 0.875rem;
+        }
+
+        .table thead th {
+            background: rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            padding: 0.75rem;
         }
     </style>
 </head>
+
 <body>
-    <nav class="navbar navbar-dark" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="{{ url_for('dashboard') }}">
-                <i class="bi bi-graph-up-arrow me-2"></i> Sales Analytics
+    <nav class="navbar navbar-analytics px-4 py-3">
+        <a class="navbar-brand text-white fw-bold text-decoration-none" href="/">
+            <i class="bi bi-shield-check text-primary me-2"></i>Automatic Dashboard
+        </a>
+        <div class="d-flex gap-2">
+            <a href="/add-customer" class="btn btn-outline-primary btn-sm rounded-pill text-white">
+                <i class="bi bi-person-plus me-1"></i> Add Entry
             </a>
-            <div class="d-flex align-items-center">
-                <span class="text-white me-3">
-                    <i class="bi bi-person-circle me-1"></i> {{ username }}
-                </span>
-                <a href="{{ url_for('dashboard') }}" class="btn btn-light btn-sm me-2">
-                    <i class="bi bi-speedometer2 me-1"></i> Dashboard
-                </a>
-                <a href="{{ url_for('logout') }}" class="btn btn-outline-light btn-sm">
-                    <i class="bi bi-box-arrow-right me-1"></i> Logout
-                </a>
-            </div>
+            <a href="/analytics-dashboard" class="btn btn-outline-light btn-sm rounded-pill">
+                <i class="bi bi-arrow-left me-1"></i> Dashboard
+            </a>
         </div>
     </nav>
 
-    <div class="container">
-        <div class="upload-card">
-            <h3 class="text-center mb-4">
-                <i class="bi bi-cloud-upload-fill me-2"></i> Upload Sales Data
-            </h3>
-            
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    {% for category, message in messages %}
-                        <div class="alert alert-{{ category }} alert-dismissible fade show d-flex align-items-center">
-                            {% if category == 'success' %}
-                                <i class="bi bi-check-circle-fill me-2"></i>
-                            {% elif category == 'danger' %}
-                                <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                            {% elif category == 'warning' %}
-                                <i class="bi bi-exclamation-circle-fill me-2"></i>
-                            {% else %}
-                                <i class="bi bi-info-circle-fill me-2"></i>
-                            {% endif %}
-                            <div>{{ message }}</div>
-                            <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert"></button>
-                        </div>
+    <div class="container py-5 mt-3">
+        <div class="row g-5">
+            <div class="col-lg-7">
+                <div class="card h-100">
+                    <div class="upload-icon-container">
+                        <i class="bi bi-cloud-arrow-up"></i>
+                    </div>
+                    <h2 class="fw-bold mb-2">Import Dataset</h2>
+                    <p class="text-muted mb-4">Upload your commercial sales data (CSV or Excel) to synchronize with the
+                        analytics engine.</p>
+
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div
+                        class="alert alert-info bg-primary bg-opacity-10 border-primary border-opacity-20 text-white mb-4">
+                        {{ message }}
+                    </div>
                     {% endfor %}
-                {% endif %}
-            {% endwith %}
-            
-            <!-- File Upload Section -->
-            <div class="mb-4">
-                <h5><i class="bi bi-upload me-2"></i> Upload Your File</h5>
-                <form method="POST" action="{{ url_for('upload') }}" enctype="multipart/form-data" id="uploadForm">
-                    <div class="upload-area mb-3" id="dropArea">
-                        <div class="mb-3">
-                            <i class="bi bi-cloud-arrow-up-fill text-primary" style="font-size: 3rem;"></i>
-                            <h5 class="mt-3">Drag & Drop your file here</h5>
-                            <p class="text-muted">or click to browse</p>
-                        </div>
-                        <input type="file" class="form-control d-none" id="fileInput" name="file" 
-                               accept=".csv,.xlsx,.xls" required>
-                        <button type="button" class="btn btn-primary px-4" onclick="document.getElementById('fileInput').click()">
-                            <i class="bi bi-folder2-open me-2"></i> Choose File
-                        </button>
-                        <div class="mt-2 small text-muted">
-                            Supported formats: CSV, XLSX, XLS (Max 16MB)
-                        </div>
-                    </div>
-                    
-                    <div class="file-info" id="fileInfo" style="display: none;">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <i class="bi bi-file-earmark-text me-2"></i>
-                                <strong id="fileName">No file chosen</strong>
-                            </div>
-                            <div>
-                                <span id="fileSize" class="text-muted"></span>
-                                <button type="button" class="btn btn-sm btn-outline-danger ms-3" onclick="clearFile()">
-                                    <i class="bi bi-x"></i>
-                                </button>
+                    {% endif %}
+                    {% endwith %}
+
+                    <form method="POST" enctype="multipart/form-data">
+                        <div class="mb-4">
+                            <label class="form-label small fw-bold text-muted text-uppercase letter-spacing-1">Select
+                                File Source</label>
+                            <input type="file" class="form-control" name="file" accept=".xlsx,.xls,.csv" required>
+                            <div class="form-text text-muted mt-2">Maximum file size: 10MB. Formats: .xlsx, .xls, .csv
                             </div>
                         </div>
-                    </div>
-                    
-                    <div class="d-grid mt-3">
-                        <button type="submit" class="btn btn-primary btn-lg" id="uploadBtn" disabled>
-                            <i class="bi bi-upload me-2"></i> Upload & Process Data
-                        </button>
-                    </div>
-                </form>
+
+                        <div class="d-grid gap-3">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="bi bi-upload me-2"></i> Process & Sync
+                            </button>
+                            <a href="/download-template" class="btn btn-outline-light btn-lg border-secondary">
+                                <i class="bi bi-download me-2"></i> Get Template
+                            </a>
+                        </div>
+                    </form>
+                </div>
             </div>
-            
-            <!-- Download Templates Section -->
-            <div class="mt-5">
-                <h5><i class="bi bi-download me-2"></i> Download Excel Templates</h5>
-                <p class="text-muted mb-4">Choose from our pre-designed templates with sample data:</p>
-                
-                <div class="row g-3 mb-4">
-                    <!-- Simple Template -->
-                    <div class="col-md-4">
-                        <div class="template-card">
-                            <div class="card-body text-center">
-                                <div class="template-icon text-primary">
-                                    <i class="bi bi-file-earmark-text"></i>
-                                </div>
-                                <h6>Simple Template</h6>
-                                <p class="text-muted small mb-3">Clean and professional design</p>
-                                
-                                <div class="template-preview mb-3">
-                                    <div class="text-muted">
-                                        <i class="bi bi-table" style="font-size: 2.5rem; opacity: 0.5;"></i>
-                                    </div>
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <span class="badge bg-light text-dark badge-template">Minimal</span>
-                                    <span class="badge bg-light text-dark badge-template">Clean</span>
-                                    <span class="badge bg-light text-dark badge-template">Basic</span>
-                                </div>
-                                
-                                <a href="{{ url_for('download_template', template_type='simple') }}" 
-                                   class="btn btn-outline-primary btn-download w-100">
-                                    <i class="bi bi-download me-2"></i> Download
-                                </a>
+
+            <div class="col-lg-5">
+                <div class="card bg-transparent border-0 p-0 shadow-none">
+                    <h5 class="fw-bold mb-4">Structure Requirements</h5>
+
+                    <div class="requirement-step">
+                        <div class="step-num">1</div>
+                        <div>
+                            <div class="fw-bold">Primary Dimensions</div>
+                            <div class="text-muted small">order_id, order_date, customer_name, product_name</div>
+                        </div>
+                    </div>
+
+                    <div class="requirement-step">
+                        <div class="step-num">2</div>
+                        <div>
+                            <div class="fw-bold">Metric Columns</div>
+                            <div class="text-muted small">quantity, unit_price, total_price</div>
+                        </div>
+                    </div>
+
+                    <div class="requirement-step">
+                        <div class="step-num">3</div>
+                        <div>
+                            <div class="fw-bold">Intelligent Mapping</div>
+                            <div class="text-muted small">System auto-corrects variations like "Inv#", "Qty", "Revenue"
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- Modern Template -->
-                    <div class="col-md-4">
-                        <div class="template-card">
-                            <div class="card-body text-center">
-                                <div class="template-icon text-success">
-                                    <i class="bi bi-file-earmark-spreadsheet"></i>
-                                </div>
-                                <h6>Modern Template</h6>
-                                <p class="text-muted small mb-3">Gradient headers with zebra striping</p>
-                                
-                                <div class="template-preview mb-3">
-                                    <div class="text-muted">
-                                        <i class="bi bi-layout-wtf" style="font-size: 2.5rem; opacity: 0.5;"></i>
-                                    </div>
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <span class="badge bg-light text-dark badge-template">Gradient</span>
-                                    <span class="badge bg-light text-dark badge-template">Zebra Stripes</span>
-                                    <span class="badge bg-light text-dark badge-template">Modern</span>
-                                </div>
-                                
-                                <a href="{{ url_for('download_template', template_type='modern') }}" 
-                                   class="btn btn-outline-success btn-download w-100">
-                                    <i class="bi bi-download me-2"></i> Download
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Colorful Template -->
-                    <div class="col-md-4">
-                        <div class="template-card">
-                            <div class="card-body text-center">
-                                <div class="template-icon text-warning">
-                                    <i class="bi bi-file-earmark-bar-graph"></i>
-                                </div>
-                                <h6>Colorful Template</h6>
-                                <p class="text-muted small mb-3">Color-coded columns with rounded borders</p>
-                                
-                                <div class="template-preview mb-3">
-                                    <div class="text-muted">
-                                        <i class="bi bi-palette-fill" style="font-size: 2.5rem; opacity: 0.5;"></i>
-                                    </div>
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <span class="badge bg-light text-dark badge-template">Colorful</span>
-                                    <span class="badge bg-light text-dark badge-template">Rounded</span>
-                                    <span class="badge bg-light text-dark badge-template">Visual</span>
-                                </div>
-                                
-                                <a href="{{ url_for('download_template', template_type='colorful') }}" 
-                                   class="btn btn-outline-warning btn-download w-100">
-                                    <i class="bi bi-download me-2"></i> Download
-                                </a>
+
+                    <div class="mt-4 pt-2">
+                        <h6 class="small fw-bold text-muted text-uppercase mb-3">Preview Format</h6>
+                        <div class="table-dark-custom">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>order_id</th>
+                                            <th>order_date</th>
+                                            <th>total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="text-muted">
+                                        <tr>
+                                            <td>ORD001</td>
+                                            <td>2024-01-15</td>
+                                            <td>₹50,000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>ORD002</td>
+                                            <td>2024-01-15</td>
+                                            <td>₹25,000</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
-                
-                <!-- Download All Templates -->
-                <div class="text-center mt-4">
-                    <p class="text-muted mb-2">Need all templates?</p>
-                    <a href="{{ url_for('download_all_templates') }}" class="btn btn-outline-dark">
-                        <i class="bi bi-file-earmark-zip me-2"></i> Download All Templates (ZIP)
-                    </a>
-                </div>
-            </div>
-            
-            <!-- Requirements Section -->
-            <div class="mt-5">
-                <h5><i class="bi bi-info-circle me-2"></i> Requirements & Guidelines</h5>
-                <div class="requirements-box">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <h6><i class="bi bi-check-circle-fill text-success me-2"></i> Required Columns:</h6>
-                            <ul class="mb-3">
-                                <li><strong>order_id</strong> - Unique order identifier</li>
-                                <li><strong>order_date</strong> - Date (YYYY-MM-DD format)</li>
-                                <li><strong>customer_name</strong> - Customer's name</li>
-                                <li><strong>product_name</strong> - Product name</li>
-                                <li><strong>quantity</strong> - Number of units (numeric)</li>
-                                <li><strong>unit_price</strong> - Price per unit (numeric)</li>
-                                <li><strong>total_price</strong> - Total order value (numeric)</li>
-                            </ul>
-                        </div>
-                        <div class="col-md-6">
-                            <h6><i class="bi bi-plus-circle-fill text-primary me-2"></i> Optional Columns:</h6>
-                            <ul class="mb-3">
-                                <li><strong>category</strong> - Product category</li>
-                                <li><strong>country</strong> - Customer country</li>
-                                <li><strong>payment_mode</strong> - Payment method</li>
-                            </ul>
-                            
-                            <h6><i class="bi bi-exclamation-triangle-fill text-warning me-2"></i> Notes:</h6>
-                            <ul class="small">
-                                <li>Column names are automatically detected</li>
-                                <li>Missing columns will be created with defaults</li>
-                                <li>Duplicate orders are automatically skipped</li>
-                                <li>Maximum file size: 16MB</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Navigation -->
-            <div class="d-flex justify-content-between mt-4 pt-3 border-top">
-                <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">
-                    <i class="bi bi-arrow-left me-2"></i> Back to Dashboard
-                </a>
-                <a href="{{ url_for('templates') }}" class="btn btn-outline-primary">
-                    <i class="bi bi-collection me-2"></i> View All Templates
-                </a>
             </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // DOM Elements
-        const fileInput = document.getElementById('fileInput');
-        const fileInfo = document.getElementById('fileInfo');
-        const fileName = document.getElementById('fileName');
-        const fileSize = document.getElementById('fileSize');
-        const uploadBtn = document.getElementById('uploadBtn');
-        const dropArea = document.getElementById('dropArea');
-        
-        // File input change handler
-        fileInput.addEventListener('change', handleFileSelect);
-        
-        function handleFileSelect() {
-            if (fileInput.files.length > 0) {
-                const file = fileInput.files[0];
-                
-                // Validate file type
-                const allowedTypes = ['text/csv', 'application/vnd.ms-excel', 
-                                     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
-                const fileExt = file.name.split('.').pop().toLowerCase();
-                
-                if (!['csv', 'xls', 'xlsx'].includes(fileExt) && 
-                    !allowedTypes.includes(file.type)) {
-                    alert('Please select a valid file (CSV, XLS, or XLSX)');
-                    clearFile();
-                    return;
-                }
-                
-                // Validate file size (16MB)
-                const maxSize = 16 * 1024 * 1024;
-                if (file.size > maxSize) {
-                    alert('File size exceeds 16MB limit');
-                    clearFile();
-                    return;
-                }
-                
-                // Display file info
-                fileName.textContent = file.name;
-                fileSize.textContent = formatBytes(file.size);
-                fileInfo.style.display = 'block';
-                uploadBtn.disabled = false;
-            }
-        }
-        
-        function clearFile() {
-            fileInput.value = '';
-            fileInfo.style.display = 'none';
-            uploadBtn.disabled = true;
-        }
-        
-        function formatBytes(bytes) {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-        }
-        
-        // Drag and drop functionality
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-            dropArea.addEventListener(eventName, preventDefaults, false);
-            document.body.addEventListener(eventName, preventDefaults, false);
-        });
-        
-        function preventDefaults(e) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
-        
-        ['dragenter', 'dragover'].forEach(eventName => {
-            dropArea.addEventListener(eventName, () => {
-                dropArea.classList.add('dragover');
-            });
-        });
-        
-        ['dragleave', 'drop'].forEach(eventName => {
-            dropArea.addEventListener(eventName, () => {
-                dropArea.classList.remove('dragover');
-            });
-        });
-        
-        dropArea.addEventListener('drop', handleDrop);
-        
-        function handleDrop(e) {
-            const dt = e.dataTransfer;
-            const files = dt.files;
-            
-            if (files.length > 0) {
-                fileInput.files = files;
-                handleFileSelect();
-            }
-        }
-        
-        // Click drop area to open file dialog
-        dropArea.addEventListener('click', () => {
-            fileInput.click();
-        });
-        
-        // Form submission with loading state
-        document.getElementById('uploadForm').addEventListener('submit', function(e) {
-            const submitBtn = document.getElementById('uploadBtn');
-            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Processing...';
-            submitBtn.disabled = true;
-        });
-        
-        // Auto-focus on file input when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            // Check for any existing file selection from previous attempts
-            if (fileInput.files.length > 0) {
-                handleFileSelect();
-            }
-        });
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

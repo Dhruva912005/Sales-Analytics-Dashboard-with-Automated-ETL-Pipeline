@@ -1,0 +1,267 @@
+{
+  "category_analysis": [
+    {
+      "name": "Electronics",
+      "revenue": 302500.0
+    },
+    {
+      "name": "General",
+      "revenue": 90511634.0
+    }
+  ],
+  "clv_table": [
+    {
+      "avg_order": 97316.35514018692,
+      "customer_name": "Amit Jain",
+      "first_order": "2026-03-05T10:52:10.919989",
+      "last_order": "2026-03-05T10:52:10.919989",
+      "lifetime_value": 10412850.0,
+      "orders": 107
+    },
+    {
+      "avg_order": 88203.5867768595,
+      "customer_name": "Ankit Singh",
+      "first_order": "2026-03-05T10:52:10.919989",
+      "last_order": "2026-03-05T10:52:10.919989",
+      "lifetime_value": 10672634.0,
+      "orders": 121
+    },
+    {
+      "avg_order": 81401.5,
+      "customer_name": "Karan Mehta",
+      "first_order": "2026-03-05T10:52:10.919989",
+      "last_order": "2026-03-05T10:52:10.919989",
+      "lifetime_value": 8140150.0,
+      "orders": 100
+    },
+    {
+      "avg_order": 93260.54954954956,
+      "customer_name": "Neha Agarwal",
+      "first_order": "2026-03-05T10:52:10.919989",
+      "last_order": "2026-03-05T10:52:10.919989",
+      "lifetime_value": 10351921.0,
+      "orders": 111
+    },
+    {
+      "avg_order": 76510.95555555556,
+      "customer_name": "Pooja Shah",
+      "first_order": "2026-03-05T10:52:10.919989",
+      "last_order": "2026-03-05T10:52:10.919989",
+      "lifetime_value": 6885986.0,
+      "orders": 90
+    },
+    {
+      "avg_order": 82535.69662921349,
+      "customer_name": "Priya Verma",
+      "first_order": "2026-03-05T10:52:10.919989",
+      "last_order": "2026-03-05T10:52:10.919989",
+      "lifetime_value": 7345677.0,
+      "orders": 89
+    },
+    {
+      "avg_order": 94859.78723404255,
+      "customer_name": "Rahul Sharma",
+      "first_order": "2026-03-05T10:52:10.919989",
+      "last_order": "2026-03-05T10:52:10.919989",
+      "lifetime_value": 8916820.0,
+      "orders": 94
+    },
+    {
+      "avg_order": 100967.46666666666,
+      "customer_name": "Rohit Patel",
+      "first_order": "2026-03-05T10:52:10.919989",
+      "last_order": "2026-03-05T10:52:10.919989",
+      "lifetime_value": 10601584.0,
+      "orders": 105
+    },
+    {
+      "avg_order": 86893.06741573034,
+      "customer_name": "Sneha Gupta",
+      "first_order": "2026-03-05T10:52:10.919989",
+      "last_order": "2026-03-05T10:52:10.919989",
+      "lifetime_value": 7733483.0,
+      "orders": 89
+    },
+    {
+      "avg_order": 97428.13402061856,
+      "customer_name": "Vikas Yadav",
+      "first_order": "2026-03-05T10:52:10.919989",
+      "last_order": "2026-03-05T10:52:10.919989",
+      "lifetime_value": 9450529.0,
+      "orders": 97
+    },
+    {
+      "avg_order": 302500.0,
+      "customer_name": "munna",
+      "first_order": "2026-03-04T00:00:00",
+      "last_order": "2026-03-04T00:00:00",
+      "lifetime_value": 302500.0,
+      "orders": 1
+    }
+  ],
+  "customer_segments": [
+    {
+      "count": 10,
+      "segment": "VIP"
+    },
+    {
+      "count": 0,
+      "segment": "Regular"
+    },
+    {
+      "count": 1,
+      "segment": "New"
+    }
+  ],
+  "geography_analysis": [
+    {
+      "aov": 90240.9112662014,
+      "country": "India",
+      "customers": 10,
+      "orders": 1003,
+      "revenue": 90511634.0
+    },
+    {
+      "aov": 302500.0,
+      "country": "india",
+      "customers": 1,
+      "orders": 1,
+      "revenue": 302500.0
+    }
+  ],
+  "payment_methods": [
+    {
+      "method": "Debit Card",
+      "revenue": 302500.0
+    },
+    {
+      "method": "Unknown",
+      "revenue": 90511634.0
+    }
+  ],
+  "predictive": {
+    "confidence_score": 70.0,
+    "forecast_revenue": 95354840.7,
+    "growth_rate": 0.0,
+    "summary": "Insufficient historical data for MoM trajectory. Projecting a baseline 5% organic growth."
+  },
+  "product_analysis": [
+    {
+      "category": "General",
+      "product_name": "USB Cable",
+      "total_quantity": 372.0,
+      "total_revenue": 11169892.0
+    },
+    {
+      "category": "General",
+      "product_name": "Laptop",
+      "total_quantity": 298.0,
+      "total_revenue": 9965397.0
+    },
+    {
+      "category": "General",
+      "product_name": "Headphones",
+      "total_quantity": 326.0,
+      "total_revenue": 9315201.0
+    },
+    {
+      "category": "General",
+      "product_name": "Monitor",
+      "total_quantity": 334.0,
+      "total_revenue": 9225584.0
+    },
+    {
+      "category": "General",
+      "product_name": "Tablet",
+      "total_quantity": 303.0,
+      "total_revenue": 9222569.0
+    },
+    {
+      "category": "General",
+      "product_name": "Webcam",
+      "total_quantity": 289.0,
+      "total_revenue": 9118879.0
+    },
+    {
+      "category": "General",
+      "product_name": "Keyboard",
+      "total_quantity": 290.0,
+      "total_revenue": 8538390.0
+    },
+    {
+      "category": "General",
+      "product_name": "Mouse",
+      "total_quantity": 280.0,
+      "total_revenue": 8382713.0
+    },
+    {
+      "category": "General",
+      "product_name": "SSD",
+      "total_quantity": 283.0,
+      "total_revenue": 8256985.0
+    },
+    {
+      "category": "General",
+      "product_name": "Printer",
+      "total_quantity": 252.0,
+      "total_revenue": 7316024.0
+    },
+    {
+      "category": "Electronics",
+      "product_name": "12",
+      "total_quantity": 55.0,
+      "total_revenue": 302500.0
+    }
+  ],
+  "revenue_metrics": {
+    "avg_basket_size": 3.0697211155378485,
+    "avg_order_value": 90452.32470119522,
+    "avg_profit_margin": 20.0,
+    "growth_rate": 0.0,
+    "total_customers": 11,
+    "total_orders": 1004,
+    "total_profit": 18162826.8,
+    "total_revenue": 90814134.0
+  },
+  "status": "success",
+  "trends": {
+    "daily": [
+      {
+        "date": "Wed, 04 Mar 2026 00:00:00 GMT",
+        "revenue": 302500.0
+      },
+      {
+        "date": "Thu, 05 Mar 2026 00:00:00 GMT",
+        "revenue": 90511634.0
+      }
+    ],
+    "hourly": [
+      {
+        "hour": 0,
+        "orders": 1,
+        "revenue": 302500.0
+      },
+      {
+        "hour": 10,
+        "orders": 1003,
+        "revenue": 90511634.0
+      }
+    ],
+    "monthly": [
+      {
+        "month": "2026-03",
+        "revenue": 90814134.0
+      }
+    ],
+    "weekly": [
+      {
+        "day": "Thursday",
+        "revenue": 90511634.0
+      },
+      {
+        "day": "Wednesday",
+        "revenue": 302500.0
+      }
+    ]
+  }
+}
