@@ -19,6 +19,11 @@ app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY', 'dev-secret-key-change-in-production')  # Use environment variable
 DB = os.getenv('DATABASE_PATH', 'sales.db')
 
+# ---- PRODUCTION STARTUP (IMPORTANT FOR RENDER) ----
+setup_logging()
+init_db()
+os.makedirs('backups', exist_ok=True)
+
 # -------------------- LOGGING SETUP --------------------
 def setup_logging():
     """
@@ -1264,11 +1269,5 @@ def internal_server_error(e):
     return render_template('500.html'), 500
 
 # -------------------- MAIN --------------------
-if __name__ == '__main__':
-    setup_logging()
-    init_db()
-    
-    # Create backups directory if it doesn't exist
-    os.makedirs('backups', exist_ok=True)
-    
-    app.run(debug=True, host='0.0.0.0', port=5000)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
