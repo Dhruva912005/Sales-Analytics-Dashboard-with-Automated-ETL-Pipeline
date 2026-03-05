@@ -19,10 +19,6 @@ app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY', 'dev-secret-key-change-in-production')  # Use environment variable
 DB = os.getenv('DATABASE_PATH', 'sales.db')
 
-# ---- PRODUCTION STARTUP (IMPORTANT FOR RENDER) ----
-setup_logging()
-init_db()
-os.makedirs('backups', exist_ok=True)
 
 # -------------------- LOGGING SETUP --------------------
 def setup_logging():
@@ -1267,6 +1263,11 @@ def page_not_found(e):
 def internal_server_error(e):
     app.logger.error(f"Internal Server Error: {str(e)}")
     return render_template('500.html'), 500
+    
+# -------------------- PRODUCTION STARTUP --------------------
+setup_logging()
+init_db()
+os.makedirs('backups', exist_ok=True)
 
 # -------------------- MAIN --------------------
 if __name__ == "__main__":
