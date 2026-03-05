@@ -15,7 +15,7 @@ import logging
 from logging.handlers import RotatingFileHandler
 from werkzeug.security import generate_password_hash, check_password_hash
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="static", template_folder="templates")
 app.secret_key = os.getenv('SECRET_KEY', 'dev-secret-key-change-in-production')  # Use environment variable
 DB = os.getenv('DATABASE_PATH', 'sales.db')
 
