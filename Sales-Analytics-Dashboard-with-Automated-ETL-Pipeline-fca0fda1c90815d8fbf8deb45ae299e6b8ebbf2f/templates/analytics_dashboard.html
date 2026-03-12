@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Analytics Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-glow: rgba(99, 102, 241, 0.4);
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --info: #0ea5e9;
+            --dark-bg: #0f172a;
+            --card-bg: #1e293b;
+            --hover-bg: #334155;
+            --border-color: rgba(255, 255, 255, 0.05);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        body {
+            font-family: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* Navbar Styling */
+        .navbar-analytics {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.75rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: var(--text-main) !important;
+        }
+
+        .navbar-brand i {
+            color: var(--primary) !important;
+            margin-right: 8px;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            background-color: #0f172a;
+            border-right: 1px solid var(--border-color);
+            height: calc(100vh - 64px);
+            position: sticky;
+            top: 64px;
+            padding: 1.5rem 1rem;
+        }
+
+        .nav-link {
+            color: var(--text-muted);
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            margin-bottom: 4px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .nav-link:hover {
+            background: var(--hover-bg);
+            color: var(--text-main);
+        }
+
+        .nav-link.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px var(--primary-glow);
+        }
+
+        .nav-link i {
+            margin-right: 10px;
+            font-size: 1.1rem;
+        }
+
+        /* Card Styling */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Metric/KPI Cards */
+        .kpi-card {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .kpi-label {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .kpi-value {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .kpi-badge {
+            font-size: 0.75rem;
+            padding: 4px 8px;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .kpi-badge.up {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .kpi-badge.down {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+
+        /* Chart Styling */
+        .chart-container {
+            height: 320px;
+            margin-top: 1rem;
+        }
+
+        /* Filter Section */
+        .filter-section {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .form-select,
+        .form-control {
+            background-color: var(--dark-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            border-radius: 12px;
+            padding: 0.625rem 1rem;
+        }
+
+        .form-select:focus,
+        .form-control:focus {
+            background-color: var(--dark-bg);
+            border-color: var(--primary);
+            color: var(--text-main);
+            box-shadow: 0 0 0 2px var(--primary-glow);
+        }
+
+        .form-label {
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        /* Tables */
+        .table {
+            color: var(--text-main);
+            margin-bottom: 0;
+        }
+
+        .table thead th {
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            background: transparent;
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem;
+        }
+
+        .table tbody td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: rgba(255, 255, 255, 0.02);
+            color: var(--text-main);
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: var(--primary);
+            border: none;
+            border-radius: 12px;
+            padding: 0.625rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--primary-glow);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+
+        /* Glow effects */
+        .glow-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+            opacity: 0.2;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-analytics">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-shield-check"></i>
+                Automatic Dashboard
+            </a>
+            <div class="d-flex align-items-center">
+                <span class="text-muted me-3 d-none d-md-inline">
+                    <i class="bi bi-clock me-1"></i>
+                    <span id="currentDate"></span>
+                </span>
+                <div class="dropdown">
+                    <button class="btn btn-dark dropdown-toggle rounded-pill" type="button" data-bs-toggle="dropdown">
+                        <i class="bi bi-person-circle me-1"></i> Dhruva Jain
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end shadow">
+                        <li><a class="dropdown-item" href="/profile"><i class="bi bi-person me-2"></i>My Profile</a>
+                        </li>
+                        <li><a class="dropdown-item" href="/change-password"><i class="bi bi-gear me-2"></i>Change
+                                Password</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item text-danger" href="/logout"><i
+                                    class="bi bi-box-arrow-right me-2"></i>Sign Out</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container-fluid m-0 p-0">
+        <div class="row g-0">
+            <!-- Sidebar -->
+            <div class="col-md-2 sidebar d-none d-md-block">
+                <div class="nav flex-column">
+                    <p class="text-muted small text-uppercase fw-bold px-3 mb-3">Main Menu</p>
+                    <a class="nav-link active" href="/analytics-dashboard">
+                        <i class="bi bi-grid-1x2"></i> Overview
+                    </a>
+                    <a class="nav-link" href="/upload-analytics">
+                        <i class="bi bi-cloud-arrow-up"></i> Data Upload
+                    </a>
+                    <a class="nav-link" href="/add-customer">
+                        <i class="bi bi-person-plus"></i> Add Customer
+                    </a>
+                    <a class="nav-link" href="/data-management">
+                        <i class="bi bi-database"></i> Data Repository
+                    </a>
+
+                    <p class="text-muted small text-uppercase fw-bold px-3 mt-4 mb-3">Export & Reports</p>
+                    <a class="nav-link" href="/export-pdf-report">
+                        <i class="bi bi-file-earmark-pdf"></i> PDF Analytics
+                    </a>
+                    <a class="nav-link" href="/export-analytics-report">
+                        <i class="bi bi-file-earmark-excel"></i> Excel Report
+                    </a>
+
+                    <div class="mt-auto pt-5 px-3">
+                        <div class="card bg-primary bg-opacity-10 border-primary border-opacity-20 p-3">
+                            <p class="small text-white mb-2">Need detailed report?</p>
+                            <a href="/export-pdf-report" class="btn btn-primary btn-sm w-100">Export PDF</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-10 p-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h2 class="fw-bold mb-1">Commercial Performance</h2>
+                        <p class="text-muted">Real-time commercial metrics and sales distribution.</p>
+                    </div>
+                    <div>
+                        <button class="btn btn-outline-light border-secondary text-white me-2"
+                            onclick="refreshAllCharts()">
+                            <i class="bi bi-arrow-clockwise"></i>
+                        </button>
+                        <button class="btn btn-primary" onclick="applyFilters()">
+                            <i class="bi bi-sliders2 me-2"></i> Configure View
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Filters -->
+                <div class="filter-section mb-4">
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <label class="form-label">Timespan</label>
+                            <select class="form-select" id="dateRangeFilter">
+                                <option value="last_7_days">Last week</option>
+                                <option value="last_30_days" selected>Last month</option>
+                                <option value="this_month">Current Month</option>
+                                <option value="this_year">Current Year</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Category</label>
+                            <select class="form-select" id="categoryFilter">
+                                <option value="all">Every Category</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Geolocation</label>
+                            <select class="form-select" id="countryFilter">
+                                <option value="all">Universal View</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Brand</label>
+                            <select class="form-select" id="brandFilter">
+                                <option value="all">All Brands</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Tabs -->
+                <ul class="nav nav-pills mb-4 gap-2" id="dashboardTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active rounded-pill px-4" id="overview-tab" data-bs-toggle="pill"
+                            data-bs-target="#overview-content" type="button" role="tab">
+                            Performance Overview
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link rounded-pill px-4" id="customers-tab" data-bs-toggle="pill"
+                            data-bs-target="#customers-content" type="button" role="tab"
+                            onclick="loadCustomerAnalysis()">
+                            Customer Intelligence
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link rounded-pill px-4" id="products-tab" data-bs-toggle="pill"
+                            data-bs-target="#products-content" type="button" role="tab" onclick="loadProductAnalysis()">
+                            Product Performance
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link rounded-pill px-4" id="insights-tab" data-bs-toggle="pill"
+                            data-bs-target="#insights-content" type="button" role="tab"
+                            onclick="loadPredictiveMetrics()">
+                            Predictive Insights
+                        </button>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="dashboardTabContent">
+                    <!-- Overview Tab -->
+                    <div class="tab-pane fade show active" id="overview-content" role="tabpanel">
+                        <!-- KPI Overview -->
+                        <div class="row g-4 mb-4" id="kpiSection">
+                            <!-- Loaded via JS -->
+                        </div>
+
+                        <!-- Main Analytics Section -->
+                        <div class="row g-4 mb-4">
+                            <div class="col-md-8">
+                                <div class="card h-100 glow-card">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <h5 class="fw-bold m-0 text-white">Revenue Trajectory</h5>
+                                        <div class="dropdown">
+                                            <button class="btn btn-link link-light p-0" data-bs-toggle="dropdown">
+                                                <i class="bi bi-three-dots-vertical"></i>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-dark shadow">
+                                                <li><a class="dropdown-item" href="#">View Details</a></li>
+                                                <li><a class="dropdown-item" href="#">Download Data</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="chart-container">
+                                        <canvas id="revenueTrendChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card h-100">
+                                    <h5 class="fw-bold mb-4 text-white">Segment Distribution</h5>
+                                    <div class="chart-container d-flex align-items-center justify-content-center">
+                                        <canvas id="categoryRevenueChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row g-4 mb-4">
+                            <div class="col-md-4">
+                                <div class="card h-100">
+                                    <h5 class="fw-bold mb-3 text-white">Weekly Performance</h5>
+                                    <div class="chart-container">
+                                        <canvas id="weeklyPatternChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card h-100">
+                                    <h5 class="fw-bold mb-3 text-white">Payment Methods</h5>
+                                    <div class="chart-container">
+                                        <canvas id="paymentMethodsChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card h-100">
+                                    <h5 class="fw-bold mb-3 text-white">Hourly Distribution</h5>
+                                    <div class="chart-container">
+                                        <canvas id="hourlySalesChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Customers Tab -->
+                    <div class="tab-pane fade" id="customers-content" role="tabpanel">
+                        <div class="row g-4 mb-4">
+                            <div class="col-md-3">
+                                <div class="card h-100 kpi-card">
+                                    <span class="kpi-label">Retention Rate</span>
+                                    <div class="kpi-value text-primary" id="retentionRateText">--%</div>
+                                    <p class="text-muted small">Repeat purchase rate</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card h-100 kpi-card">
+                                    <span class="kpi-label">Loyalty Index</span>
+                                    <div class="kpi-value text-success" id="loyaltyIndexText">--</div>
+                                    <p class="text-muted small">Weighted RFM Score</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card h-100">
+                                    <h5 class="fw-bold mb-4 text-white">Customer Segments</h5>
+                                    <div class="chart-container">
+                                        <canvas id="customerSegmentChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <h5 class="fw-bold mb-3 text-white">High Value Customers</h5>
+                            <div class="table-responsive">
+                                <table class="table table-analytics" id="topCustomersTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Customer</th>
+                                            <th>Lifetime Value</th>
+                                            <th>Total Orders</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Products Tab -->
+                    <div class="tab-pane fade" id="products-content" role="tabpanel">
+                        <div class="row g-4 mb-4">
+                            <div class="col-md-7">
+                                <div class="card h-100">
+                                    <h5 class="fw-bold mb-3 text-white">Top Commercial Items</h5>
+                                    <div class="table-responsive">
+                                        <table class="table table-analytics" id="topProductsTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Product</th>
+                                                    <th>Revenue</th>
+                                                    <th>Quantity</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="card h-100">
+                                    <h5 class="fw-bold mb-3 text-white">Regional Performance</h5>
+                                    <div class="chart-container">
+                                        <canvas id="countryChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Insights Tab -->
+                    <div class="tab-pane fade" id="insights-content" role="tabpanel">
+                        <div class="row g-4 mb-4">
+                            <div class="col-md-4">
+                                <div class="card h-100 mb-4">
+                                    <h5 class="fw-bold mb-2">Growth Forecast</h5>
+                                    <div class="badge bg-primary bg-opacity-10 text-primary p-3 rounded-3 mb-3">
+                                        <h2 class="mb-0 fw-bold" id="growthRateText">--%</h2>
+                                    </div>
+                                    <p class="text-muted small">Estimated revenue variation for the next cycle.</p>
+                                </div>
+                                <div class="card h-100">
+                                    <h5 class="fw-bold mb-2">Predicted Target</h5>
+                                    <div class="kpi-value text-success" id="predictedRevenueText">₹0</div>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card border-0 h-100"
+                                    style="background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);">
+                                    <div class="d-flex align-items-center h-100">
+                                        <div class="p-3 bg-white bg-opacity-10 rounded-3 me-4">
+                                            <i class="bi bi-lightning-charge-fill text-white fs-3"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="fw-bold mb-1">Intelligent Observations</h5>
+                                            <p class="mb-3 text-white text-opacity-80" id="insightsText">Processing
+                                                sales patterns...</p>
+                                            <div id="recommendationsList" class="small text-white text-opacity-75">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- External JS -->
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+                <!-- Dashboard Logic -->
+                <script>
+                    let charts = {};
+                    let currentData = {};
+
+                    document.addEventListener('DOMContentLoaded', function () {
+                        // Set current date
+                        const now = new Date();
+                        document.getElementById('currentDate').textContent =
+                            now.toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' });
+
+                        loadDashboardData();
+                        loadFilterOptions();
+                        initTabListeners();
+                        // Initialize charts object to avoid null errors
+                        charts = {};
+                    });
+
+                    function refreshAllCharts() {
+                        applyFilters();
+                    }
+
+                    async function loadDashboardData() {
+                        try {
+                            showLoading();
+                            const filters = getFilters();
+                            const response = await fetch(`/api/advanced-chart-data?${filters}`);
+                            const data = await response.json();
+
+                            if (data.status === 'success' || data.status === 'empty') {
+                                currentData = data;
+                                renderKPIs(data);
+                                renderCharts(data);
+                                renderTables(data);
+                                generateInsights();
+                            } else {
+                                showError(data.message || 'Failed to sync with server');
+                            }
+                        } catch (error) {
+                            console.error('Data Load Error:', error);
+                            showError('Error loading dashboard data');
+                        }
+                    }
+
+                    async function loadFilterOptions() {
+                        try {
+                            const response = await fetch('/api/filter-options');
+                            if (response.ok) {
+                                const data = await response.json();
+                                populateSelect('categoryFilter', data.categories);
+                                populateSelect('countryFilter', data.countries);
+                                populateSelect('brandFilter', data.brands);
+                            }
+                        } catch (error) { console.error('Filter Load Error:', error); }
+                    }
+
+                    function populateSelect(id, items) {
+                        const select = document.getElementById(id);
+                        if (!items) return;
+                        items.forEach(item => {
+                            const opt = document.createElement('option');
+                            opt.value = item;
+                            opt.textContent = item;
+                            select.appendChild(opt);
+                        });
+                    }
+
+                    function getFilters() {
+                        return new URLSearchParams({
+                            category: document.getElementById('categoryFilter').value,
+                            date_range: document.getElementById('dateRangeFilter').value,
+                            country: document.getElementById('countryFilter').value,
+                            brand: document.getElementById('brandFilter').value
+                        }).toString();
+                    }
+
+                    function applyFilters() {
+                        loadDashboardData();
+                        // Also refresh active tab specific data
+                        const activeTab = document.querySelector('#dashboardTabs .nav-link.active');
+                        if (activeTab) {
+                            if (activeTab.id === 'customers-tab') loadCustomerAnalysis();
+                            if (activeTab.id === 'products-tab') loadProductAnalysis();
+                            if (activeTab.id === 'insights-tab') loadPredictiveMetrics();
+                        }
+                    }
+
+                    function showLoading() {
+                        document.getElementById('kpiSection').innerHTML = '<div class="col-12 text-center py-5"><div class="spinner-border text-primary"></div></div>';
+                    }
+
+                    function showError(msg) {
+                        document.getElementById('kpiSection').innerHTML = `<div class="col-12"><div class="alert alert-danger bg-danger bg-opacity-10 border-danger text-danger">${msg}</div></div>`;
+                    }
+
+                    function renderKPIs(data) {
+                        const m = data.revenue_metrics;
+                        const growth = m.growth_rate || 0;
+                        const growthClass = growth >= 0 ? 'up' : 'down';
+                        const growthIcon = growth >= 0 ? 'bi-arrow-up-short' : 'bi-arrow-down-short';
+
+                        document.getElementById('kpiSection').innerHTML = `
+                <div class="col-md-3">
+                    <div class="card h-100 kpi-card">
+                        <span class="kpi-label">Revenue</span>
+                        <div class="kpi-value text-primary">₹${formatNumber(m.total_revenue)}</div>
+                        <div class="mt-2 text-muted small"><span class="kpi-badge ${growthClass}"><i class="bi ${growthIcon}"></i> ${Math.abs(growth)}%</span> MoM</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card h-100 kpi-card">
+                        <span class="kpi-label">Orders</span>
+                        <div class="kpi-value text-white">${formatNumber(m.total_orders)}</div>
+                        <div class="mt-2 text-muted small">Total Volume</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card h-100 kpi-card">
+                        <span class="kpi-label">AOV</span>
+                        <div class="kpi-value text-white">₹${formatNumber(m.avg_order_value)}</div>
+                        <div class="mt-2 text-muted small">Per Transaction</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card h-100 kpi-card">
+                        <span class="kpi-label">Customers</span>
+                        <div class="kpi-value text-white">${formatNumber(m.total_customers)}</div>
+                        <div class="mt-2 text-muted small">Unique Reach</div>
+                    </div>
+                </div>
+            `;
+                    }
+
+                    function renderCharts(data) {
+                        // Destroy existing charts to prevent memory leaks
+                        Object.values(charts).forEach(c => c.destroy());
+                        charts = {};
+
+                        const createGradient = (ctx, color) => {
+                            const g = ctx.createLinearGradient(0, 0, 0, 400);
+                            g.addColorStop(0, color + '66');
+                            g.addColorStop(1, color + '00');
+                            return g;
+                        };
+
+                        // 1. Revenue Trajectory (Line)
+                        const trendCtx = document.getElementById('revenueTrendChart').getContext('2d');
+                        charts.revenue = new Chart(trendCtx, {
+                            type: 'line',
+                            data: {
+                                labels: data.trends.daily.map(d => d.date),
+                                datasets: [{
+                                    label: 'Revenue',
+                                    data: data.trends.daily.map(d => d.revenue),
+                                    borderColor: '#6366f1',
+                                    borderWidth: 3,
+                                    pointRadius: 0,
+                                    fill: true,
+                                    backgroundColor: createGradient(trendCtx, '#6366f1'),
+                                    lineTension: 0.4
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: { legend: { display: false } },
+                                scales: {
+                                    x: { display: false },
+                                    y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8', font: { size: 10 } } }
+                                }
+                            }
+                        });
+
+                        // 2. Segment Distribution (Doughnut)
+                        charts.category = new Chart(document.getElementById('categoryRevenueChart').getContext('2d'), {
+                            type: 'doughnut',
+                            data: {
+                                labels: data.category_analysis.map(c => c.name),
+                                datasets: [{
+                                    data: data.category_analysis.map(c => c.revenue),
+                                    backgroundColor: ['#6366f1', '#8b5cf6', '#ec4899', '#f43f5e', '#f59e0b'],
+                                    borderWidth: 0,
+                                    hoverOffset: 20
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                cutout: '75%',
+                                plugins: { legend: { display: false } }
+                            }
+                        });
+
+                        // 3. Weekly Pattern (Bar)
+                        charts.weekly = new Chart(document.getElementById('weeklyPatternChart').getContext('2d'), {
+                            type: 'bar',
+                            data: {
+                                labels: data.trends.weekly.map(w => w.day),
+                                datasets: [{
+                                    data: data.trends.weekly.map(w => w.revenue),
+                                    backgroundColor: 'rgba(99, 102, 241, 0.5)',
+                                    borderColor: '#6366f1',
+                                    borderWidth: 1,
+                                    borderRadius: 5
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: { legend: { display: false } },
+                                scales: {
+                                    x: { grid: { display: false }, ticks: { color: '#94a3b8' } },
+                                    y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } }
+                                }
+                            }
+                        });
+
+                        // 4. Payment Methods (Pie)
+                        if (document.getElementById('paymentMethodsChart')) {
+                            charts.payment = new Chart(document.getElementById('paymentMethodsChart').getContext('2d'), {
+                                type: 'pie',
+                                data: {
+                                    labels: data.payment_methods.map(p => p.method),
+                                    datasets: [{
+                                        data: data.payment_methods.map(p => p.revenue),
+                                        backgroundColor: ['#6366f1', '#10b981', '#f59e0b', '#f43f5e']
+                                    }]
+                                },
+                                options: {
+                                    responsive: true,
+                                    maintainAspectRatio: false,
+                                    plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8', boxWidth: 12 } } }
+                                }
+                            });
+                        }
+
+                        // 5. Hourly Sales (Line)
+                        charts.hourly = new Chart(document.getElementById('hourlySalesChart').getContext('2d'), {
+                            type: 'line',
+                            data: {
+                                labels: data.trends.hourly.map(h => h.hour + ':00'),
+                                datasets: [{
+                                    data: data.trends.hourly.map(h => h.revenue),
+                                    borderColor: '#10b981',
+                                    fill: false,
+                                    borderDash: [5, 5],
+                                    pointBackgroundColor: '#10b981'
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: { legend: { display: false } },
+                                scales: {
+                                    x: { ticks: { color: '#94a3b8' } },
+                                    y: { grid: { display: false }, ticks: { color: '#94a3b8' } }
+                                }
+                            }
+                        });
+                    }
+
+                    function renderTables(data) {
+                        const tableIds = ['#topProductsTable tbody', '#topProductsTableOverview tbody'];
+                        const list = data.product_analysis || [];
+
+                        tableIds.forEach(id => {
+                            const table = document.querySelector(id);
+                            if (!table) return;
+                            table.innerHTML = '';
+                            list.slice(0, 5).forEach(p => {
+                                table.innerHTML += `
+                                    <tr>
+                                        <td>
+                                            <div class="fw-bold">${p.product_name || 'N/A'}</div>
+                                            <div class="small text-muted">${p.category || 'N/A'}</div>
+                                        </td>
+                                        <td class="text-primary fw-bold">₹${formatNumber(p.total_revenue || 0)}</td>
+                                        <td>${formatNumber(p.total_quantity || 0)}</td>
+                                    </tr>
+                                `;
+                            });
+                        });
+                    }
+
+                    function generateInsights() {
+                        const m = currentData.revenue_metrics || {};
+                        const p = currentData.predictive || {};
+                        const prodList = currentData.product_analysis || [];
+                        const top = prodList.length > 0 ? prodList[0] : { product_name: 'N/A' };
+
+                        let text = `High performance detected in <strong>${top.product_name}</strong>. `;
+                        text += p.summary || "Revenue analysis indicates stable market trajectory.";
+
+                        document.getElementById('insightsText').innerHTML = text;
+                    }
+
+                    function formatNumber(num) {
+                        if (num >= 10000000) return (num / 10000000).toFixed(1) + 'Cr';
+                        if (num >= 100000) return (num / 100000).toFixed(1) + 'L';
+                        if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+                        return num.toLocaleString();
+                    }
+
+                    function initTabListeners() {
+                        const tabElements = document.querySelectorAll('button[data-bs-toggle="pill"]');
+                        tabElements.forEach(tab => {
+                            tab.addEventListener('shown.bs.tab', function (event) {
+                                const targetId = event.target.getAttribute('data-bs-target');
+                                if (targetId === '#customers-content') loadCustomerAnalysis();
+                                if (targetId === '#products-content') loadProductAnalysis();
+                                if (targetId === '#insights-content') loadPredictiveMetrics();
+                            });
+                        });
+                    }
+
+                    async function loadCustomerAnalysis() {
+                        try {
+                            const filters = getFilters();
+                            const response = await fetch(`/api/customer-analysis?${filters}`);
+                            const data = await response.json();
+
+                            const metrics = data.metrics || { retention_rate: 0, loyalty_index: 0 };
+                            document.getElementById('retentionRateText').textContent = (metrics.retention_rate || 0) + '%';
+                            document.getElementById('loyaltyIndexText').textContent = (metrics.loyalty_index || 0);
+
+                            const top_customers = data.top_customers || [];
+                            const segments = data.segments || [];
+
+                            const tableBody = document.querySelector('#topCustomersTable tbody');
+                            tableBody.innerHTML = '';
+                            top_customers.forEach(c => {
+                                tableBody.innerHTML += `
+                                <tr>
+                                    <td class="fw-bold">${c.customer_name || 'Unknown'}</td>
+                                    <td class="text-primary">₹${formatNumber(c.total_spent)}</td>
+                                    <td>${c.order_count}</td>
+                                </tr>
+                            `;
+                            });
+
+                            if (charts.segments) charts.segments.destroy();
+                            charts.segments = new Chart(document.getElementById('customerSegmentChart').getContext('2d'), {
+                                type: 'polarArea',
+                                data: {
+                                    labels: segments.map(s => s.name),
+                                    datasets: [{
+                                        data: segments.map(s => s.count),
+                                        backgroundColor: [
+                                            'rgba(239, 68, 68, 0.5)',  /* High Value - Red */
+                                            'rgba(99, 102, 241, 0.5)', /* VIP - Primary */
+                                            'rgba(139, 92, 246, 0.5)', /* Regular - Secondary */
+                                            'rgba(236, 72, 153, 0.5)'  /* New - Pink */
+                                        ]
+                                    }]
+                                },
+                                options: {
+                                    scales: { r: { grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { display: false } } },
+                                    plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8' } } }
+                                }
+                            });
+                        } catch (e) { console.error('Customer Load Error:', e); }
+                    }
+
+                    async function loadProductAnalysis() {
+                        try {
+                            const filters = getFilters();
+                            const response = await fetch(`/api/product-analysis?${filters}`);
+                            const data = await response.json();
+
+                            const geography = data.geography || [];
+                            if (charts.countries) charts.countries.destroy();
+                            charts.countries = new Chart(document.getElementById('countryChart').getContext('2d'), {
+                                type: 'bar',
+                                data: {
+                                    labels: geography.map(g => g.country),
+                                    datasets: [{
+                                        data: geography.map(g => g.revenue),
+                                        backgroundColor: '#6366f1',
+                                        borderRadius: 8
+                                    }]
+                                },
+                                options: {
+                                    responsive: true,
+                                    maintainAspectRatio: false,
+                                    plugins: { legend: { display: false } },
+                                    scales: {
+                                        x: { grid: { display: false }, ticks: { color: '#94a3b8' } },
+                                        y: { ticks: { color: '#94a3b8' } }
+                                    }
+                                }
+                            });
+                        } catch (e) { console.error('Product Load Error:', e); }
+                    }
+
+                    async function loadPredictiveMetrics() {
+                        try {
+                            const filters = getFilters();
+                            const response = await fetch(`/api/advanced-chart-data?${filters}`);
+                            const responseJson = await response.json();
+                            const data = responseJson.predictive || {};
+
+                            const growth = data.growth_rate || 0;
+                            document.getElementById('growthRateText').textContent = (growth >= 0 ? '+' : '') + growth.toFixed(1) + '%';
+                            document.getElementById('predictedRevenueText').textContent = '₹' + formatNumber(data.forecast_revenue || 0);
+                            document.getElementById('insightsText').textContent = data.summary || 'Patterns are being processed. Check back soon.';
+
+                            // We can also fetch the dedicated endpoint for recommendations if needed, 
+                            // but for now, we'll use fallback or populate from currentData if available
+                            const filtersAdv = getFilters();
+                            const recResponse = await fetch(`/api/predictive-metrics?${filtersAdv}`);
+                            const recData = await recResponse.json();
+                            const list = document.getElementById('recommendationsList');
+                            if (list) {
+                                list.innerHTML = '';
+                                const items = recData.recommendations || [];
+                                items.forEach(r => {
+                                    list.innerHTML += `<div><i class="bi bi-check2-circle me-1"></i> ${r}</div>`;
+                                });
+                                if (items.length === 0) {
+                                    list.innerHTML = '<div class="text-white-50">Analyzing trends...</div>';
+                                }
+                            }
+                        } catch (e) { console.error('Insights Load Error:', e); }
+                    }
+
+                    function refreshAllCharts() {
+                        applyFilters();
+                    }
+                </script>
+</body>
+
+</html>
