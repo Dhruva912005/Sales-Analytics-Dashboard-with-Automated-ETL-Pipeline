@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile | Sales Analytics</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+
+    <style>
+        body { background-color: #f8f9fa; }
+
+        .profile-card {
+            max-width: 650px;
+            margin: 60px auto;
+            padding: 35px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .profile-icon {
+            font-size: 70px;
+            color: #4a6baf;
+        }
+
+        .info-box {
+            background: #f1f3f5;
+            border-radius: 8px;
+            padding: 10px 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ url_for('dashboard') }}">
+            <i class="bi bi-graph-up"></i> Sales Analytics
+        </a>
+        <div class="navbar-nav ms-auto">
+            <a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a>
+            <a class="nav-link active" href="{{ url_for('profile') }}">Profile</a>
+            <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </div>
+</nav>
+
+<!-- Flash Messages -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="container mt-3">
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+
+<div class="container">
+    <div class="profile-card">
+
+        <div class="text-center mb-4">
+            <i class="bi bi-person-circle profile-icon"></i>
+            <h3 class="mt-3">User Profile</h3>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label text-muted">Username</label>
+            <div class="info-box">{{ username }}</div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label text-muted">Email</label>
+            <div class="info-box">{{ email or session.get('user', 'Not set') }}</div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label text-muted">Full Name</label>
+            <div class="info-box">{{ full_name or 'Not set' }}</div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label text-muted">Role</label>
+            <div class="info-box">{{ role or session.get('role', 'User')|title }}</div>
+        </div>
+
+        {% if created_at %}
+        <div class="mb-3">
+            <label class="form-label text-muted">Account Created</label>
+            <div class="info-box">{{ created_at }}</div>
+        </div>
+        {% endif %}
+
+        {% if last_login %}
+        <div class="mb-3">
+            <label class="form-label text-muted">Last Login</label>
+            <div class="info-box">{{ last_login }}</div>
+        </div>
+        {% endif %}
+
+        <div class="text-center mt-4 pt-3 border-top">
+            <a href="{{ url_for('dashboard') }}" class="btn btn-primary">
+                <i class="bi bi-speedometer2"></i> Back to Dashboard
+            </a>
+        </div>
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
